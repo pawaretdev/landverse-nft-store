@@ -12,6 +12,7 @@ interface WalletConnectionProps {
   readonly isConnecting: boolean;
   readonly isWrongChain: boolean;
   readonly currentAllowance: bigint | undefined;
+  readonly connectError?: string;
   readonly onConnect: () => void;
   readonly onDisconnect: () => void;
   readonly onSwitchChain: () => void;
@@ -23,6 +24,7 @@ export function WalletConnection({
   isConnecting,
   isWrongChain,
   currentAllowance,
+  connectError,
   onConnect,
   onDisconnect,
   onSwitchChain,
@@ -51,6 +53,9 @@ export function WalletConnection({
                 Wrong network detected
               </p>
             )}
+            {connectError && (
+              <p className="text-xs text-red-400 mt-1">{connectError}</p>
+            )}
           </div>
         </div>
         <div className="flex gap-2">
@@ -73,4 +78,3 @@ export function WalletConnection({
     </Card>
   );
 }
-

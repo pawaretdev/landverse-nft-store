@@ -69,6 +69,7 @@ export function NftPurchasePage(): React.ReactNode {
           isConnecting={wallet.isConnecting}
           isWrongChain={wallet.isWrongChain}
           currentAllowance={purchase.currentAllowance}
+          connectError={wallet.connectError}
           onConnect={wallet.connect}
           onDisconnect={wallet.disconnect}
           onSwitchChain={wallet.switchToSaigon}

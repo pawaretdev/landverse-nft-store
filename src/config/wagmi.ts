@@ -1,4 +1,5 @@
 import { http, createConfig } from "wagmi";
+import { injected } from "wagmi/connectors";
 import { defineChain } from "viem";
 
 export const saigonTestnet = defineChain({
@@ -27,9 +28,13 @@ export const CHAIN_NAME = "Saigon Testnet";
 
 export const wagmiConfig = createConfig({
   chains: [saigonTestnet],
+  connectors: [
+    injected({
+      shimDisconnect: true,
+    }),
+  ],
   transports: {
     [saigonTestnet.id]: http(),
   },
   ssr: true,
 });
-
