@@ -1,10 +1,10 @@
-import type { Address, Hex } from "viem";
 import type {
   ContractPurchaseArgs,
   ParsedPayloadResult,
   PurchasePayload,
   PurchaseRequest,
 } from "@/types/purchase";
+import type { Address, Hex } from "viem";
 
 /**
  * Parses and validates purchase payload JSON
@@ -95,4 +95,3 @@ export function toContractPurchaseArgs(
     orderId: request.orderId as Hex,
   };
 }
-

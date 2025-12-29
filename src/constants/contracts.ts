@@ -53,4 +53,3 @@ export const DEFAULT_PAYLOAD_JSON = `{
 export const GAS_LIMIT_APPROVE = BigInt(100000);
 export const GAS_LIMIT_PURCHASE = BigInt(500000);
 export const TOKEN_DECIMALS = 18;
-

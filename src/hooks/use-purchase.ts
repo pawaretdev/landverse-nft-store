@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { type Address, type Hex, erc20Abi } from "viem";
+import { type Hex, erc20Abi } from "viem";
 import {
   useAccount,
   useReadContract,
@@ -14,6 +14,7 @@ import {
   GAS_LIMIT_PURCHASE,
   NFT_STORE_ABI,
 } from "@/constants/contracts";
+import { formatTokenAmount } from "@/lib/format";
 import {
   calculateTotalPrice,
   toContractPurchaseArgs,
@@ -24,7 +25,6 @@ import type {
   PurchasePayload,
   TransactionStep,
 } from "@/types/purchase";
-import { formatTokenAmount } from "@/lib/format";
 
 interface UsePurchaseResult {
   readonly txStep: TransactionStep;
@@ -103,7 +103,12 @@ export function usePurchase(config: PurchaseConfig): UsePurchaseResult {
       args: [purchaseArgs, signature as Hex],
       ...(config.skipSimulation ? { gas: GAS_LIMIT_PURCHASE } : {}),
     });
-  }, [pendingPayload, config.nftStoreAddress, config.skipSimulation, writePurchase]);
+  }, [
+    pendingPayload,
+    config.nftStoreAddress,
+    config.skipSimulation,
+    writePurchase,
+  ]);
 
   // Handle approve confirmed -> execute purchase
   useEffect(() => {
@@ -191,7 +196,9 @@ export function usePurchase(config: PurchaseConfig): UsePurchaseResult {
       const allowance = latestAllowance ?? BigInt(0);
       if (allowance >= totalPrice) {
         setStatus(
-          `Allowance sufficient (${formatTokenAmount(allowance)}). Executing purchase...`
+          `Allowance sufficient (${formatTokenAmount(
+            allowance
+          )}). Executing purchase...`
         );
         const purchaseArgs = toContractPurchaseArgs(request);
         setTxStep("purchasing");
@@ -204,7 +211,9 @@ export function usePurchase(config: PurchaseConfig): UsePurchaseResult {
         });
       } else {
         setStatus(
-          `Current allowance: ${formatTokenAmount(allowance)}. Need: ${formatTokenAmount(totalPrice)}. Approving tokens...`
+          `Current allowance: ${formatTokenAmount(
+            allowance
+          )}. Need: ${formatTokenAmount(totalPrice)}. Approving tokens...`
         );
         setTxStep("approving");
         writeApprove({
@@ -256,4 +265,3 @@ export function usePurchase(config: PurchaseConfig): UsePurchaseResult {
     resetState,
   };
 }
-
